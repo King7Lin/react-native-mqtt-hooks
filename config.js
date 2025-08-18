@@ -13,8 +13,7 @@ export const config = {
     },
     clean: true,
     maxReconnectAttempts: 5,
-    initialReconnectDelay: 1000,
-    
+    initialReconnectDelay: 1000, 
 }
 export const persistentConfig = {
     host: '',

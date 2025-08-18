@@ -262,3 +262,46 @@ export default MqttComponent;
 - `isConnected`: 连接状态
 - `subscribeList`: 订阅列表
 
+## 配置选项
+
+MQTT客户端支持多种配置选项，这些选项可以在创建MQTT服务实例或使用MQTTProvider时传入。
+
+### 基本配置选项
+
+- `host` (string): MQTT服务器地址
+- `port` (number): MQTT服务器端口，默认为8883
+- `clientId` (string): 客户端ID，如果不提供将自动生成一个随机ID
+- `username` (string): 用户名
+- `password` (string): 密码
+- `keepalive` (number): 保活时间（秒），默认为60秒
+- `protocol` (string): 协议类型，支持 'wss' (WebSocket Secure) 等
+- `protocolVersion` (number): MQTT协议版本，默认为4 (MQTT v3.1.1)
+- `transport` (string): 传输方式，例如 'websocket'
+- `clean` (boolean): 是否使用干净会话，默认为true
+
+### 高级配置选项
+
+- `wsOptions` (Object): WebSocket选项
+  - `rejectUnauthorized` (boolean): 是否拒绝未经授权的连接，默认为false
+- `maxReconnectAttempts` (number): 最大重连尝试次数，默认为5
+- `initialReconnectDelay` (number): 初始重连延迟（毫秒），默认为1000
+
+### 预定义配置
+
+项目提供了两个预定义的配置对象：
+
+1. `config`: 基本配置，使用随机生成的clientId和干净会话
+2. `persistentConfig`: 持久化配置，使用固定的clientId和非干净会话，适用于需要接收离线消息的场景
+
+```javascript
+import { config, persistentConfig } from './config';
+
+// 使用基本配置
+const { connect, disconnect, publish } = useMqttService(config);
+
+// 使用持久化配置
+const { connect, disconnect, publish } = useMqttService(persistentConfig);
+```
+
+```
+
