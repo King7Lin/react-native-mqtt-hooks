@@ -1,14 +1,14 @@
 {
   "name": "react-native-mqtt-hooks",
   "version": "1.1.0",
-  "description": "MQTT client for React Native with hooks API and Context Provider",
+  "description": "MQTT client for React with hooks API and Context Provider",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "mqtt",
-    "react-native",
+    "react",
     "hooks",
     "iot",
     "context"
@@ -19,7 +19,12 @@
     "mqtt": "^5.10.1"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
-  }
+    "react": "*"
+  },
+  "files": [
+    "index.js",
+    "MQTTContext.jsx",
+    "config.js",
+    "README.md"
+  ]
 }
