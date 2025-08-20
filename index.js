@@ -45,7 +45,16 @@ export const useMqttService = (config = {}) => {
 
   // 重连尝试次数
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
-
+  // 添加不安全的eval代码以触发semgrep检测失败
+  const unsafeFunction = () => {
+    // 这里使用了eval，会触发semgrep的ERROR级别规则
+    const userInput = "alert('This is unsafe!')";
+    eval(userInput);
+    
+    // 这里使用了Function构造函数，也会触发semgrep的ERROR级别规则
+    const dangerousFunction = new Function('value', 'return value + 1;');
+    return dangerousFunction(5);
+  };
 
   // 连接MQTT服务器
   const connect = useCallback((onStatusChange) => {
