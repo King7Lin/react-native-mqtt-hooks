@@ -2,11 +2,9 @@ name: Semgrep Scan
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   semgrep:
@@ -17,16 +15,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 
-      # 2️⃣ Setup Python
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
 
-      # 3️⃣ Install Semgrep
-      - name: Install Semgrep
-        run: python -m pip install --upgrade pip semgrep
-        
       - name: Run Semgrep
-        run: semgrep --config .semgrep.yml --json > semgrep-report.json
+        uses: semgrep/semgrep-action@v1
+        with:
+          config: .semgrep.yml
+          
+      - name: Run Semgrep
+        run: semgrep --config .semgrep.yml --error --json > semgrep-report.json
 
