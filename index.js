@@ -75,7 +75,7 @@ export const useMqttService = (config = {}) => {
 
       // 监听连接事件
       newClient.on('connect', (connect) => {
-        console.log('MQTT Connected successfully', connect);
+        console.log('MQTT Connected', connect);
         setIsConnected(true);
         // 自动恢复订阅
         subscribeList.forEach((t) => {
