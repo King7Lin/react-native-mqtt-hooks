@@ -13,13 +13,13 @@ export const MQTTProvider = ({ children, config = {}, defaultTopic = 'clien', de
 
   // 全局消息处理函数
   const handleGlobalMessage = (topic, message) => {
-    console.log(`[Global] Received message on topic ${topic}: ${message}`);
+    // console.log(`[Global] Received message on topic ${topic}: ${message}`);
     const parsedMessage = processJsonMessage(message);
     // 过滤只保留senderId为jaylin的消息
     if (parsedMessage && parsedMessage.senderId !== 'jaylin') {
       setGlobalMessages(prev => [...prev, { topic, message: parsedMessage, timestamp: new Date() }]);
     } else {
-      console.log(`[Global] Message filtered out (senderId is not jaylin or invalid JSON)`);
+      // console.log(`[Global] Message filtered out (senderId is not jaylin or invalid JSON)`);
     }
   };
 
@@ -52,7 +52,7 @@ export const MQTTProvider = ({ children, config = {}, defaultTopic = 'clien', de
 
   // 连接成功自动订阅 
   useEffect(() => {
-    console.log('change subscribe', isConnected, autoSubscribe);
+    // console.log('change subscribe', isConnected, autoSubscribe);
     if (isConnected && autoSubscribe) {
       doSubscribe();
     }

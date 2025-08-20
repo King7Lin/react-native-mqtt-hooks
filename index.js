@@ -40,7 +40,7 @@ export const useMqttService = (config = {}) => {
     callbacksRef.current = messageCallbacks;
     // 更新订阅列表
     setSubscribeList(Object.keys(messageCallbacks));
-    console.log('[MQTT] Updated subscribeList:', Object.keys(messageCallbacks), subscribeList, subscriptions);
+    // console.log('[MQTT] Updated subscribeList:', Object.keys(messageCallbacks), subscribeList, subscriptions);
   }, [messageCallbacks]);
 
   // 重连尝试次数
@@ -75,14 +75,14 @@ export const useMqttService = (config = {}) => {
 
       // 监听连接事件
       newClient.on('connect', (connect) => {
-        console.log('MQTT Connected', connect);
+        // console.log('MQTT Connected', connect);
         setIsConnected(true);
         // 自动恢复订阅
         subscribeList.forEach((t) => {
           const qos = subscriptions[t] || 1; // 默认QoS为1
           newClient.subscribe(t, { qos }, (err) => {
             if (err) console.error(`[MQTT] 恢复订阅失败: ${t}`, err);
-            else console.log(`[MQTT] 恢复订阅成功: ${t} with QoS ${qos}`);
+            // else console.log(`[MQTT] 恢复订阅成功: ${t} with QoS ${qos}`);
           });
         });
         onStatusChange('connectSuccess')
@@ -109,7 +109,7 @@ export const useMqttService = (config = {}) => {
 
       // 监听断开连接事件
       newClient.on('disconnect', (packet) => {
-        console.log('MQTT Disconnected:', packet);
+        // console.log('MQTT Disconnected:', packet);
         setIsConnected(false);
         handleReconnect(onStatusChange);
         onStatusChange('disconnected', packet);
@@ -117,7 +117,7 @@ export const useMqttService = (config = {}) => {
 
       // 监听连接关闭事件
       newClient.on('close', () => {
-        console.log('MQTT Connection closed');
+        // console.log('MQTT Connection closed');
         setIsConnected(false);
         handleReconnect(onStatusChange);
         onStatusChange('connectClosed', new Error('Connection closed'));
@@ -127,10 +127,10 @@ export const useMqttService = (config = {}) => {
       newClient.on('message', (topic, message, packet) => {
         const messageStr = message.toString();
         if (callbacksRef.current[topic]) {
-          console.log(`[MQTT] Calling callback for topic ${topic}`);
+          // console.log(`[MQTT] Calling callback for topic ${topic}`);
           callbacksRef.current[topic](topic, messageStr);
         } else {
-          console.log(`[MQTT] No callback registered for topic ${topic}`);
+          // console.log(`[MQTT] No callback registered for topic ${topic}`);
         }
       });
     } catch (error) {
@@ -148,7 +148,7 @@ export const useMqttService = (config = {}) => {
     }
 
     const delay = initialReconnectDelay * Math.pow(2, reconnectAttempts);
-    console.log(`Attempting to reconnect in ${delay}ms (attempt ${reconnectAttempts + 1})`);
+    // console.log(`Attempting to reconnect in ${delay}ms (attempt ${reconnectAttempts + 1})`);
 
     setTimeout(() => {
       setReconnectAttempts(prev => prev + 1);
@@ -197,7 +197,7 @@ export const useMqttService = (config = {}) => {
             console.error('Publish error:', error);
             reject(error);
           } else {
-            console.log(`Published message to topic ${topic}: ${message}`);
+            // console.log(`Published message to topic ${topic}: ${message}`);
             resolve(true);
           }
         });
@@ -229,7 +229,7 @@ export const useMqttService = (config = {}) => {
             console.error(`[MQTT] Failed to subscribe to topic ${topic}:`, error);
             reject(error);
           } else {
-            console.log(`[MQTT] Subscribed to topic ${topic} with QoS ${granted[0].qos}`);
+            // console.log(`[MQTT] Subscribed to topic ${topic} with QoS ${granted[0].qos}`);
             // 更新订阅信息
             setSubscriptions(prev => ({
               ...prev,
@@ -238,7 +238,7 @@ export const useMqttService = (config = {}) => {
             setMessageCallbacks(prev => {
               const updatedCallbacks = { ...prev };
               updatedCallbacks[topic] = callback;
-              console.log(`[MQTT] Current subscribed topics: ${Object.keys(updatedCallbacks).join(', ')}`);
+              // console.log(`[MQTT] Current subscribed topics: ${Object.keys(updatedCallbacks).join(', ')}`);
               return updatedCallbacks;
             });
             resolve(true);
@@ -277,7 +277,7 @@ export const useMqttService = (config = {}) => {
               delete newSubscriptions[topic];
               return newSubscriptions;
             });
-            console.log(`Unsubscribed from topic ${topic}`);
+            // console.log(`Unsubscribed from topic ${topic}`);
             resolve(true);
           }
         });
