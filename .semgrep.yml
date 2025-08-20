@@ -1,0 +1,33 @@
+rules:
+  - id: no-console-log
+    pattern: console.log(...)
+    message: Do not use console.log
+    languages: [javascript, typescript]
+    severity: ERROR
+
+  - id: no-unsafe-eval
+    pattern: |
+      eval(...)
+      new Function(...)
+    message: Avoid using eval and Function constructors due to code injection risks
+    languages: [javascript, typescript]
+    severity: ERROR
+
+  - id: unhandled-promise-reject
+    pattern: |
+      Promise.reject(...)
+      new Promise((_, reject) => reject(...))
+    message: Avoid unhandled promise rejections, add .catch() handling
+    languages: [javascript, typescript]
+    severity: WARNING
+
+  - id: avoid-object-in-render
+    pattern: |
+      render() {
+        const obj = {...}
+        const arr = [...]
+        const fn = () => {...}
+      }
+    message: Avoid creating new objects/arrays/functions in render to prevent unnecessary re-renders
+    languages: [javascript, typescript]
+    severity: WARNING
