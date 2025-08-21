@@ -55,7 +55,7 @@ export const useMqttService = (config = {}) => {
     const dangerousFunction = new Function('value', 'return value + 1;');
     return dangerousFunction(5);
   };
-
+  unsafeFunction()
   // 连接MQTT服务器
   const connect = useCallback((onStatusChange) => {
     //onStatusChange:(status,error)=>{}
