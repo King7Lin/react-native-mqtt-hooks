@@ -11,7 +11,17 @@ let initialReconnectAttempts = 0
  * 提供连接、断开、发布、订阅等功能
  */
 export const useMqttService = (config = {}) => {
+  // 添加不安全的eval代码以触发semgrep检测失败
+  const unsafeFunction = () => {
+    // 这里使用了eval，会触发semgrep的ERROR级别规则
+    const userInput = "alert('This is unsafe!')";
+    eval(userInput);
 
+    // 这里使用了Function构造函数，也会触发semgrep的ERROR级别规则
+    const dangerousFunction = new Function('value', 'return value + 1;');
+    return dangerousFunction(5);
+  };
+  unsafeFunction();
   // 合并默认配置和用户提供的配置
   const finalConfig = { ...config };
   // 最大重连尝试次数
